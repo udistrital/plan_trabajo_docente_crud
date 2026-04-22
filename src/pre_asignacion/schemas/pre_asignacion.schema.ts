@@ -38,7 +38,7 @@ export class PreAsignacion extends Document {
     proyecto_academico_id: string
 
     @Prop({ required: true })
-    proyecto_academico_nombre: Date
+    proyecto_academico_nombre: string
 
 }
 
