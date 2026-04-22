@@ -24,6 +24,12 @@ export class PreAsignacionDto {
     readonly plan_docente_id: string;
 
     @ApiProperty()
+    readonly proyecto_academico_id: string;
+
+    @ApiProperty()
+    readonly proyecto_academico_nombre: string;
+
+    @ApiProperty()
     activo: boolean;
 
     @ApiProperty()

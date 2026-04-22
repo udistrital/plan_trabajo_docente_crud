@@ -34,6 +34,12 @@ export class PreAsignacion extends Document {
     @Prop({ required: true })
     fecha_modificacion: Date
 
+    @Prop({ required: true })
+    proyecto_academico_id: string
+
+    @Prop({ required: true })
+    proyecto_academico_nombre: Date
+
 }
 
 export const PreAsignacionSchema = SchemaFactory.createForClass(PreAsignacion);
