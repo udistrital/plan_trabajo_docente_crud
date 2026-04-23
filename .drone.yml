@@ -1,17 +1,21 @@
-workspace:
-  base: /go
-  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
+kind: pipeline
+type: docker
+name: nestjs_api_ci
+
+steps:
+- name: install_dependencies
+  image: node:current-alpine
+  commands:
+    - npm install -g pnpm
+    - pnpm install
   when:
-      branch:
+    branch:
       - develop
       - release/*
       - master
-      - feature/*
+    event:
+      - push
 
-kind: pipeline
-name: oas_api_ci
-
-steps:
 - name: nest_build
   image: node:current-alpine
   commands:
@@ -87,7 +91,7 @@ steps:
     - push
 
 - name: update_aws_ecs
-  image: golang:1.18
+  image: amazon/aws-cli
   environment:
     AWS_ACCESS_KEY_ID:
       from_secret: AWS_ACCESS_KEY_ID
@@ -110,13 +114,8 @@ steps:
     esac
   - AWS_REGION=us-east-1
   - SERVICE=${DRONE_REPO##udistrital/}_$AMBIENTE
-  - container_name=${DRONE_REPO##udistrital/}
-  - apt-get update
-  - apt-get install unzip
-  - wget https://github.com/Autodesk/go-awsecs/releases/download/v1.1/update-aws-ecs-service-linux-amd64.zip
-  - unzip update-aws-ecs-service-linux-amd64.zip -d /go/bin
-  - AWS_ACCESS_KEY_ID=$${AWS_ACCESS_KEY_ID} AWS_SECRET_ACCESS_KEY=$${AWS_SECRET_ACCESS_KEY} AWS_REGION=$AWS_REGION
-    $GOPATH/bin/update-aws-ecs-service -cluster $CLUSTER -service $SERVICE -container-image $MYCONTAINER
+  - MYCONTAINER=oas0/${DRONE_REPO##udistrital/}:${DRONE_COMMIT:0:7}
+  - aws ecs update-service --cluster $CLUSTER --service $SERVICE --force-new-deployment
   when:
     branch:
     - release/*
