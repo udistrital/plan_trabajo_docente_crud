@@ -11,9 +11,9 @@ export class ConsolidadoDocenteController {
     constructor(private consolidadoDocenteService: ConsolidadoDocenteService) { }
 
     @Post()
-    async post(@Res() res, @Body() consolidado_docenteDto: ConsolidadoDocenteDto) {
-        const consolidado_docente = await this.consolidadoDocenteService.post(consolidado_docenteDto);
-        if (!consolidado_docente) {
+    async post(@Res() res, @Body() consolidadoDocenteDto: ConsolidadoDocenteDto) {
+        const consolidadoDocente = await this.consolidadoDocenteService.post(consolidadoDocenteDto);
+        if (!consolidadoDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class ConsolidadoDocenteController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: consolidado_docente
+                Data: consolidadoDocente
             }
         );
 
@@ -34,29 +34,21 @@ export class ConsolidadoDocenteController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const consolidado_docente = await this.consolidadoDocenteService.getAll(filterDto);
-        if (!consolidado_docente) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const consolidadoDocente = await this.consolidadoDocenteService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: consolidado_docente
+                Data: consolidadoDocente
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const consolidado_docente = await this.consolidadoDocenteService.getById(id);
-        if (!consolidado_docente) {
+        const consolidadoDocente = await this.consolidadoDocenteService.getById(id);
+        if (!consolidadoDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class ConsolidadoDocenteController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: consolidado_docente
+                Data: consolidadoDocente
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() consolidado_docenteDto: ConsolidadoDocenteDto) {
-        const consolidado_docente = await this.consolidadoDocenteService.put(id, consolidado_docenteDto);
-        if (!consolidado_docente) {
+    async put(@Res() res, @Param('id') id: string, @Body() consolidadoDocenteDto: ConsolidadoDocenteDto) {
+        const consolidadoDocente = await this.consolidadoDocenteService.put(id, consolidadoDocenteDto);
+        if (!consolidadoDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class ConsolidadoDocenteController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: consolidado_docente
+                Data: consolidadoDocente
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const consolidado_docente = await this.consolidadoDocenteService.getById(id);
-        consolidado_docente.activo = false;
-        const response = await this.consolidadoDocenteService.put(id, consolidado_docente);
+        const consolidadoDocente = await this.consolidadoDocenteService.getById(id);
+        consolidadoDocente.activo = false;
+        const response = await this.consolidadoDocenteService.put(id, consolidadoDocente);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

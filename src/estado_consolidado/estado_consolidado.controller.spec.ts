@@ -1,15 +1,15 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { Estado_consolidadoController } from "./estado_consolidado.controller";
+import { EstadoConsolidadoController } from "./estado_consolidado.controller";
 
 describe("ActividadController", () => {
-    let controller: Estado_consolidadoController;
+    let controller: EstadoConsolidadoController;
 
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
-            controllers: [Estado_consolidadoController],
+            controllers: [EstadoConsolidadoController],
         }).compile();
 
-        controller = module.get<Estado_consolidadoController>(Estado_consolidadoController);
+        controller = module.get<EstadoConsolidadoController>(EstadoConsolidadoController);
     });
 
     it("should be defined", () => {

@@ -8,10 +8,19 @@ export class ConsolidadoDocente extends Document {
     plan_docente_id: string
 
     @Prop({ required: true })
+    periodo_id: string
+
+    @Prop({ required: true })
+    proyecto_academico_id: string
+
+    @Prop({ required: true })
     estado_consolidado_id: string
 
     @Prop({ required: true })
     respuesta_decanatura: string
+
+    @Prop({ required: true })
+    consolidado_coordinacion: string
 
     @Prop({ required: true })
     cumple_normativa: boolean

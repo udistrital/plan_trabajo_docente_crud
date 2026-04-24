@@ -10,14 +10,14 @@ import { FiltersService } from "../filters/filters.service";
 
 @Injectable()
 export class CargaPlanService {
-    constructor(@InjectModel(CargaPlan.name) private readonly carga_planModel: Model<CargaPlan>) { }
+    constructor(@InjectModel(CargaPlan.name) private readonly cargaPlanModel: Model<CargaPlan>) { }
 
-    async post(carga_planDto: CargaPlanDto): Promise<CargaPlan> {
+    async post(cargaPlanDto: CargaPlanDto): Promise<CargaPlan> {
         try {
-            const carga_plan = new this.carga_planModel(carga_planDto);
-            carga_plan.fecha_creacion = new Date();
-            carga_plan.fecha_modificacion = new Date();
-            return await carga_plan.save();
+            const cargaPlan = new this.cargaPlanModel(cargaPlanDto);
+            cargaPlan.fecha_creacion = new Date();
+            cargaPlan.fecha_modificacion = new Date();
+            return await cargaPlan.save();
         }
         catch (error) {
             return null;
@@ -27,7 +27,7 @@ export class CargaPlanService {
     async getAll(filterDto: FilterDto): Promise<CargaPlan[]> {
         try {
             const filtersService = new FiltersService(filterDto);
-            return await this.carga_planModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
+            return await this.cargaPlanModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
                 .sort(filtersService.getSortBy()).exec();
         }
         catch (error) {
@@ -37,18 +37,18 @@ export class CargaPlanService {
 
     async getById(id: string): Promise<CargaPlan> {
         try {
-            return await this.carga_planModel.findById(id).exec();
+            return await this.cargaPlanModel.findById(id).exec();
         }
         catch (error) {
             return null;
         };
     }
 
-    async put(id: string, carga_planDto: CargaPlanDto): Promise<CargaPlan> {
+    async put(id: string, cargaPlanDto: CargaPlanDto): Promise<CargaPlan> {
         try {
-            carga_planDto.fecha_modificacion = new Date();
-            await this.carga_planModel.findByIdAndUpdate(id, carga_planDto, { new: true }).exec();
-            return await this.carga_planModel.findById(id).exec();
+            cargaPlanDto.fecha_modificacion = new Date();
+            await this.cargaPlanModel.findByIdAndUpdate(id, cargaPlanDto, { new: true }).exec();
+            return await this.cargaPlanModel.findById(id).exec();
         }
         catch (error) {
             return null;
@@ -57,7 +57,7 @@ export class CargaPlanService {
 
     async delete(id: string): Promise<any> {
         try {
-            return await this.carga_planModel.findByIdAndRemove(id).exec();
+            return await this.cargaPlanModel.findByIdAndRemove(id).exec();
         }
         catch (error) {
             return null;

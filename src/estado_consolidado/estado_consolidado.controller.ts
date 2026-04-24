@@ -7,13 +7,13 @@ import { ApiTags } from '@nestjs/swagger';
 
 @Controller('estado_consolidado')
 @ApiTags('estado_consolidado')
-export class Estado_consolidadoController {
+export class EstadoConsolidadoController {
     constructor(private estadoConsolidadoService: EstadoConolidadoService) { }
 
     @Post()
-    async post(@Res() res, @Body() estado_consolidadoDto: EstadoConsolidadoDto) {
-        const estado_consolidado = await this.estadoConsolidadoService.post(estado_consolidadoDto);
-        if (!estado_consolidado) {
+    async post(@Res() res, @Body() estadoConsolidadoDto: EstadoConsolidadoDto) {
+        const estadoConsolidado = await this.estadoConsolidadoService.post(estadoConsolidadoDto);
+        if (!estadoConsolidado) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class Estado_consolidadoController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: estado_consolidado
+                Data: estadoConsolidado
             }
         );
 
@@ -34,29 +34,21 @@ export class Estado_consolidadoController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const estado_consolidado = await this.estadoConsolidadoService.getAll(filterDto);
-        if (!estado_consolidado) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const estadoConsolidado = await this.estadoConsolidadoService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: estado_consolidado
+                Data: estadoConsolidado
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const estado_consolidado = await this.estadoConsolidadoService.getById(id);
-        if (!estado_consolidado) {
+        const estadoConsolidado = await this.estadoConsolidadoService.getById(id);
+        if (!estadoConsolidado) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class Estado_consolidadoController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: estado_consolidado
+                Data: estadoConsolidado
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() estado_consolidadoDto: EstadoConsolidadoDto) {
-        const estado_consolidado = await this.estadoConsolidadoService.put(id, estado_consolidadoDto);
-        if (!estado_consolidado) {
+    async put(@Res() res, @Param('id') id: string, @Body() estadoConsolidadoDto: EstadoConsolidadoDto) {
+        const estadoConsolidado = await this.estadoConsolidadoService.put(id, estadoConsolidadoDto);
+        if (!estadoConsolidado) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class Estado_consolidadoController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: estado_consolidado
+                Data: estadoConsolidado
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const estado_consolidad = await this.estadoConsolidadoService.getById(id);
-        estado_consolidad.activo = false;
-        const response = await this.estadoConsolidadoService.put(id, estado_consolidad);
+        const estadoConsolidad = await this.estadoConsolidadoService.getById(id);
+        estadoConsolidad.activo = false;
+        const response = await this.estadoConsolidadoService.put(id, estadoConsolidad);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

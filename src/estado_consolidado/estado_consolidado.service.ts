@@ -10,14 +10,14 @@ import { FiltersService } from "../filters/filters.service";
 
 @Injectable()
 export class EstadoConolidadoService {
-    constructor(@InjectModel(EstadoConsolidado.name) private readonly estado_consolidadoModel: Model<EstadoConsolidado>) { }
+    constructor(@InjectModel(EstadoConsolidado.name) private readonly estadoConsolidadoModel: Model<EstadoConsolidado>) { }
 
-    async post(estado_consolidadoDto: EstadoConsolidadoDto): Promise<EstadoConsolidado> {
+    async post(estadoConsolidadoDto: EstadoConsolidadoDto): Promise<EstadoConsolidado> {
         try {
-            const estado_consolidado = new this.estado_consolidadoModel(estado_consolidadoDto);
-            estado_consolidado.fecha_creacion = new Date();
-            estado_consolidado.fecha_modificacion = new Date();
-            return await estado_consolidado.save();
+            const estadoConsolidado = new this.estadoConsolidadoModel(estadoConsolidadoDto);
+            estadoConsolidado.fecha_creacion = new Date();
+            estadoConsolidado.fecha_modificacion = new Date();
+            return await estadoConsolidado.save();
         }
         catch (error) {
             return null;
@@ -27,7 +27,7 @@ export class EstadoConolidadoService {
     async getAll(filterDto: FilterDto): Promise<EstadoConsolidado[]> {
         try {
             const filtersService = new FiltersService(filterDto);
-            return await this.estado_consolidadoModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
+            return await this.estadoConsolidadoModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
                 .sort(filtersService.getSortBy()).exec();
         }
         catch (error) {
@@ -37,18 +37,18 @@ export class EstadoConolidadoService {
 
     async getById(id: string): Promise<EstadoConsolidado> {
         try {
-            return await this.estado_consolidadoModel.findById(id).exec();
+            return await this.estadoConsolidadoModel.findById(id).exec();
         }
         catch (error) {
             return null;
         };
     }
 
-    async put(id: string, estado_consolidadoDto: EstadoConsolidadoDto): Promise<EstadoConsolidado> {
+    async put(id: string, estadoConsolidadoDto: EstadoConsolidadoDto): Promise<EstadoConsolidado> {
         try {
-            estado_consolidadoDto.fecha_modificacion = new Date();
-            await this.estado_consolidadoModel.findByIdAndUpdate(id, estado_consolidadoDto, { new: true }).exec();
-            return await this.estado_consolidadoModel.findById(id).exec();
+            estadoConsolidadoDto.fecha_modificacion = new Date();
+            await this.estadoConsolidadoModel.findByIdAndUpdate(id, estadoConsolidadoDto, { new: true }).exec();
+            return await this.estadoConsolidadoModel.findById(id).exec();
         }
         catch (error) {
             return null;
@@ -57,7 +57,7 @@ export class EstadoConolidadoService {
 
     async delete(id: string): Promise<any> {
         try {
-            return await this.estado_consolidadoModel.findByIdAndRemove(id).exec();
+            return await this.estadoConsolidadoModel.findByIdAndRemove(id).exec();
         }
         catch (error) {
             return null;

@@ -8,6 +8,9 @@ export class PreAsignacion extends Document {
     docente_id: string
 
     @Prop({ required: true })
+    tipo_vinculacion_id: string
+
+    @Prop({ required: true })
     espacio_academico_id: string
 
     @Prop({ required: true })
@@ -30,6 +33,12 @@ export class PreAsignacion extends Document {
 
     @Prop({ required: true })
     fecha_modificacion: Date
+
+    @Prop({ required: true })
+    proyecto_academico_id: string
+
+    @Prop({ required: true })
+    proyecto_academico_nombre: string
 
 }
 

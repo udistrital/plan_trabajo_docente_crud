@@ -11,9 +11,9 @@ export class CargaPlanController {
     constructor(private cargaPlanService: CargaPlanService) { }
 
     @Post()
-    async post(@Res() res, @Body() carga_planDto: CargaPlanDto) {
-        const carga_plan = await this.cargaPlanService.post(carga_planDto);
-        if (!carga_plan) {
+    async post(@Res() res, @Body() cargaPlanDto: CargaPlanDto) {
+        const cargaPlan = await this.cargaPlanService.post(cargaPlanDto);
+        if (!cargaPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class CargaPlanController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: carga_plan
+                Data: cargaPlan
             }
         );
 
@@ -34,29 +34,21 @@ export class CargaPlanController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const carga_plan = await this.cargaPlanService.getAll(filterDto);
-        if (!carga_plan) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const cargaPlan = await this.cargaPlanService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: carga_plan
+                Data: cargaPlan
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const carga_plan = await this.cargaPlanService.getById(id);
-        if (!carga_plan) {
+        const cargaPlan = await this.cargaPlanService.getById(id);
+        if (!cargaPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class CargaPlanController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: carga_plan
+                Data: cargaPlan
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() carga_planDto: CargaPlanDto) {
-        const carga_plan = await this.cargaPlanService.put(id, carga_planDto);
-        if (!carga_plan) {
+    async put(@Res() res, @Param('id') id: string, @Body() cargaPlanDto: CargaPlanDto) {
+        const cargaPlan = await this.cargaPlanService.put(id, cargaPlanDto);
+        if (!cargaPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class CargaPlanController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: carga_plan
+                Data: cargaPlan
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const carga_plan = await this.cargaPlanService.getById(id);
-        carga_plan.activo = false;
-        const response = await this.cargaPlanService.put(id, carga_plan);
+        const cargaPlan = await this.cargaPlanService.getById(id);
+        cargaPlan.activo = false;
+        const response = await this.cargaPlanService.put(id, cargaPlan);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

@@ -11,9 +11,9 @@ export class PreAsignacionController {
     constructor(private preAsignacionService: PreAsignacionService) { }
 
     @Post()
-    async post(@Res() res, @Body() pre_asignacionDto: PreAsignacionDto) {
-        const pre_asignacion = await this.preAsignacionService.post(pre_asignacionDto);
-        if (!pre_asignacion) {
+    async post(@Res() res, @Body() preAsignacionDto: PreAsignacionDto) {
+        const preAsignacion = await this.preAsignacionService.post(preAsignacionDto);
+        if (!preAsignacion) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class PreAsignacionController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: pre_asignacion
+                Data: preAsignacion
             }
         );
 
@@ -34,29 +34,21 @@ export class PreAsignacionController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const pre_asignacion = await this.preAsignacionService.getAll(filterDto);
-        if (!pre_asignacion) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const preAsignacion = await this.preAsignacionService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: pre_asignacion
+                Data: preAsignacion
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const pre_asignacion = await this.preAsignacionService.getById(id);
-        if (!pre_asignacion) {
+        const preAsignacion = await this.preAsignacionService.getById(id);
+        if (!preAsignacion) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class PreAsignacionController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: pre_asignacion
+                Data: preAsignacion
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() pre_asignacionDto: PreAsignacionDto) {
-        const pre_asignacion = await this.preAsignacionService.put(id, pre_asignacionDto);
-        if (!pre_asignacion) {
+    async put(@Res() res, @Param('id') id: string, @Body() preAsignacionDto: PreAsignacionDto) {
+        const preAsignacion = await this.preAsignacionService.put(id, preAsignacionDto);
+        if (!preAsignacion) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class PreAsignacionController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: pre_asignacion
+                Data: preAsignacion
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const pre_asignacion = await this.preAsignacionService.getById(id);
-        pre_asignacion.activo = false;
-        const response = await this.preAsignacionService.put(id, pre_asignacion);
+        const preAsignacion = await this.preAsignacionService.getById(id);
+        preAsignacion.activo = false;
+        const response = await this.preAsignacionService.put(id, preAsignacion);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

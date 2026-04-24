@@ -10,14 +10,14 @@ import { FiltersService } from "../filters/filters.service";
 
 @Injectable()
 export class ConsolidadoDocenteService {
-    constructor(@InjectModel(ConsolidadoDocente.name) private readonly consolidado_docenteModel: Model<ConsolidadoDocente>) { }
+    constructor(@InjectModel(ConsolidadoDocente.name) private readonly consolidadoDocenteModel: Model<ConsolidadoDocente>) { }
 
-    async post(consolidado_docenteDto: ConsolidadoDocenteDto): Promise<ConsolidadoDocente> {
+    async post(consolidadoDocenteDto: ConsolidadoDocenteDto): Promise<ConsolidadoDocente> {
         try {
-            const consolidado_docente = new this.consolidado_docenteModel(consolidado_docenteDto);
-            consolidado_docente.fecha_creacion = new Date();
-            consolidado_docente.fecha_modificacion = new Date();
-            return await consolidado_docente.save();
+            const consolidadoDocente = new this.consolidadoDocenteModel(consolidadoDocenteDto);
+            consolidadoDocente.fecha_creacion = new Date();
+            consolidadoDocente.fecha_modificacion = new Date();
+            return await consolidadoDocente.save();
         }
         catch (error) {
             return null;
@@ -27,7 +27,7 @@ export class ConsolidadoDocenteService {
     async getAll(filterDto: FilterDto): Promise<ConsolidadoDocente[]> {
         try {
             const filtersService = new FiltersService(filterDto);
-            return await this.consolidado_docenteModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
+            return await this.consolidadoDocenteModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
                 .sort(filtersService.getSortBy()).exec();
         }
         catch (error) {
@@ -37,18 +37,18 @@ export class ConsolidadoDocenteService {
 
     async getById(id: string): Promise<ConsolidadoDocente> {
         try {
-            return await this.consolidado_docenteModel.findById(id).exec();
+            return await this.consolidadoDocenteModel.findById(id).exec();
         }
         catch (error) {
             return null;
         };
     }
 
-    async put(id: string, consolidado_docenteDto: ConsolidadoDocenteDto): Promise<ConsolidadoDocente> {
+    async put(id: string, consolidadoDocenteDto: ConsolidadoDocenteDto): Promise<ConsolidadoDocente> {
         try {
-            consolidado_docenteDto.fecha_modificacion = new Date();
-            await this.consolidado_docenteModel.findByIdAndUpdate(id, consolidado_docenteDto, { new: true }).exec();
-            return await this.consolidado_docenteModel.findById(id).exec();
+            consolidadoDocenteDto.fecha_modificacion = new Date();
+            await this.consolidadoDocenteModel.findByIdAndUpdate(id, consolidadoDocenteDto, { new: true }).exec();
+            return await this.consolidadoDocenteModel.findById(id).exec();
         }
         catch (error) {
             return null;
@@ -57,7 +57,7 @@ export class ConsolidadoDocenteService {
 
     async delete(id: string): Promise<any> {
         try {
-            return await this.consolidado_docenteModel.findByIdAndRemove(id).exec();
+            return await this.consolidadoDocenteModel.findByIdAndRemove(id).exec();
         }
         catch (error) {
             return null;

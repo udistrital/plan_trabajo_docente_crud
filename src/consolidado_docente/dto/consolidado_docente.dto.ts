@@ -6,10 +6,19 @@ export class ConsolidadoDocenteDto {
     readonly plan_docente_id: string;
 
     @ApiProperty()
+    readonly periodo_id: string;
+
+    @ApiProperty()
+    readonly proyecto_academico_id: string;
+
+    @ApiProperty()
     readonly estado_consolidado_id: string;
 
     @ApiProperty()
     readonly respuesta_decanatura: string;
+
+    @ApiProperty()
+    readonly consolidado_coordinacion: string;
 
     @ApiProperty()
     readonly cumple_normativa: boolean;

@@ -1,4 +1,3 @@
-import { ParseBoolPipe } from '@nestjs/common';
 import { FilterDto } from './dto/filter.dto';
 
 export class FiltersService {
@@ -26,7 +25,7 @@ export class FiltersService {
         fieldsObj[property] = 1;
       });
     }
-    return fieldsObj;
+    return fieldsObj
   }
 
   getSortBy(): any[] {
@@ -36,28 +35,21 @@ export class FiltersService {
       let sortbyProperties = this.filterDto.sortby.split(',');
       if (this.filterDto.order) {
         let orderProperties = this.filterDto.order.split(',');
-        if (orderProperties.length == 1) {
-          //Si order solo contiene un valor ordena todos los campos de acuerdo al mismo
+        if (orderProperties.length == 1) {//Si order solo contiene un valor ordena todos los campos de acuerdo al mismo
           let orderTerm = (this.filterDto.order == 'desc') ? -1 : 1;
           sortbyProperties.forEach(function (property) {
             sortbyArray.push([property, orderTerm]);
           });
-        } else if (sortbyProperties.length == orderProperties.length) {
-          //Si order y sortby tienen el mismo tamaño, se ordena cada campo de acuerdo al orden específico
+        } else if (sortbyProperties.length == orderProperties.length) {//Si order y sortby tienen el mismo tamaño, se ordena cada campo de acuerdo al orden específico
           for (let i = 0; i < sortbyProperties.length; i++) {
-            sortbyArray.push([
-              sortbyProperties[i],
-              (orderProperties[i] == 'desc' ? -1 : 1)
-            ]);
+            sortbyArray.push([sortbyProperties[i], (orderProperties[i] == 'desc' ? -1 : 1)]);
           }
-        } else {
-          //Si order y sortby tienen tamaños diferentes, se ignora el orden definido y se ordena de forma ascendente
+        } else {//Si order y sortby tienen tamaños diferentes, se ignora el orden definido y se ordena de forma ascendente
           sortbyProperties.forEach(function (property) {
             sortbyArray.push([property, 1]);
           });
         }
-      } else {
-        //Si order no está definido, por defecto todos los campos son ordenados ascendentemente
+      } else {//Si order no está definido, por defecto todos los campos son ordenados ascendentemente
         sortbyProperties.forEach(function (property) {
           sortbyArray.push([property, 1]);
         });
@@ -67,13 +59,11 @@ export class FiltersService {
   }
 
   getLimitAndOffset(): Object {
-    return {
-      skip: parseInt(this.filterDto.offset),
-      limit: parseInt(this.filterDto.limit),
-    };
+    return { skip: parseInt(this.filterDto.offset), limit: parseInt(this.filterDto.limit) };
   }
 
   isPopulated(): boolean {
     return this.filterDto.populate === 'true';
   }
+
 }

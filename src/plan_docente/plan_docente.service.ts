@@ -10,14 +10,14 @@ import { FiltersService } from "../filters/filters.service";
 
 @Injectable()
 export class PlanDocenteService {
-    constructor(@InjectModel(PlanDocente.name) private readonly plan_docenteModel: Model<PlanDocente>) { }
+    constructor(@InjectModel(PlanDocente.name) private readonly planDocenteModel: Model<PlanDocente>) { }
 
-    async post(plan_docenteDto: PlanDocenteDto): Promise<PlanDocente> {
+    async post(planDocenteDto: PlanDocenteDto): Promise<PlanDocente> {
         try {
-            const plan_docente = new this.plan_docenteModel(plan_docenteDto);
-            plan_docente.fecha_creacion = new Date();
-            plan_docente.fecha_modificacion = new Date();
-            return await plan_docente.save();
+            const planDocente = new this.planDocenteModel(planDocenteDto);
+            planDocente.fecha_creacion = new Date();
+            planDocente.fecha_modificacion = new Date();
+            return await planDocente.save();
         }
         catch (error) {
             return null;
@@ -27,7 +27,7 @@ export class PlanDocenteService {
     async getAll(filterDto: FilterDto): Promise<PlanDocente[]> {
         try {
             const filtersService = new FiltersService(filterDto);
-            return await this.plan_docenteModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
+            return await this.planDocenteModel.find(filtersService.getQuery(), filtersService.getFields(), filtersService.getLimitAndOffset())
                 .sort(filtersService.getSortBy()).exec();
         }
         catch (error) {
@@ -37,18 +37,18 @@ export class PlanDocenteService {
 
     async getById(id: string): Promise<PlanDocente> {
         try {
-            return await this.plan_docenteModel.findById(id).exec();
+            return await this.planDocenteModel.findById(id).exec();
         }
         catch (error) {
             return null;
         };
     }
 
-    async put(id: string, plan_docenteDto: PlanDocenteDto): Promise<PlanDocente> {
+    async put(id: string, planDocenteDto: PlanDocenteDto): Promise<PlanDocente> {
         try {
-            plan_docenteDto.fecha_modificacion = new Date();
-            await this.plan_docenteModel.findByIdAndUpdate(id, plan_docenteDto, { new: true }).exec();
-            return await this.plan_docenteModel.findById(id).exec();
+            planDocenteDto.fecha_modificacion = new Date();
+            await this.planDocenteModel.findByIdAndUpdate(id, planDocenteDto, { new: true }).exec();
+            return await this.planDocenteModel.findById(id).exec();
         }
         catch (error) {
             return null;
@@ -57,7 +57,7 @@ export class PlanDocenteService {
 
     async delete(id: string): Promise<any> {
         try {
-            return await this.plan_docenteModel.findByIdAndRemove(id).exec();
+            return await this.planDocenteModel.findByIdAndRemove(id).exec();
         }
         catch (error) {
             return null;

@@ -11,9 +11,9 @@ export class EstadoPlanController {
     constructor(private estadoPlanService: EstadoPlanService) { }
 
     @Post()
-    async post(@Res() res, @Body() estado_planDto: EstadoPlanDto) {
-        const estado_plan = await this.estadoPlanService.post(estado_planDto);
-        if (!estado_plan) {
+    async post(@Res() res, @Body() estadoPlanDto: EstadoPlanDto) {
+        const estadoPlan = await this.estadoPlanService.post(estadoPlanDto);
+        if (!estadoPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class EstadoPlanController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: estado_plan
+                Data: estadoPlan
             }
         );
 
@@ -34,29 +34,21 @@ export class EstadoPlanController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const estado_plan = await this.estadoPlanService.getAll(filterDto);
-        if (!estado_plan) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const estadoPlan = await this.estadoPlanService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: estado_plan
+                Data: estadoPlan
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const estado_plan = await this.estadoPlanService.getById(id);
-        if (!estado_plan) {
+        const estadoPlan = await this.estadoPlanService.getById(id);
+        if (!estadoPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class EstadoPlanController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: estado_plan
+                Data: estadoPlan
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() estado_planDto: EstadoPlanDto) {
-        const estado_plan = await this.estadoPlanService.put(id, estado_planDto);
-        if (!estado_plan) {
+    async put(@Res() res, @Param('id') id: string, @Body() estadoPlanDto: EstadoPlanDto) {
+        const estadoPlan = await this.estadoPlanService.put(id, estadoPlanDto);
+        if (!estadoPlan) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class EstadoPlanController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: estado_plan
+                Data: estadoPlan
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const estado_plan = await this.estadoPlanService.getById(id);
-        estado_plan.activo = false;
-        const response = await this.estadoPlanService.put(id, estado_plan);
+        const estadoPlan = await this.estadoPlanService.getById(id);
+        estadoPlan.activo = false;
+        const response = await this.estadoPlanService.put(id, estadoPlan);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

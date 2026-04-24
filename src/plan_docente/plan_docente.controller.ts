@@ -11,9 +11,9 @@ export class PlanDocenteController {
     constructor(private planDocenteService: PlanDocenteService) { }
 
     @Post()
-    async post(@Res() res, @Body() plan_docenteDto: PlanDocenteDto) {
-        const plan_docente = await this.planDocenteService.post(plan_docenteDto);
-        if (!plan_docente) {
+    async post(@Res() res, @Body() planDocenteDto: PlanDocenteDto) {
+        const planDocente = await this.planDocenteService.post(planDocenteDto);
+        if (!planDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -26,7 +26,7 @@ export class PlanDocenteController {
                 Success: true,
                 Status: "201",
                 Message: "Registration successful",
-                Data: plan_docente
+                Data: planDocente
             }
         );
 
@@ -34,29 +34,21 @@ export class PlanDocenteController {
 
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
-        const plan_docente = await this.planDocenteService.getAll(filterDto);
-        if (!plan_docente) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
+        const planDocente = await this.planDocenteService.getAll(filterDto);
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: plan_docente
+                Data: planDocente
             }
         );
     }
 
     @Get('/:id')
     async getById(@Res() res, @Param('id') id: string) {
-        const plan_docente = await this.planDocenteService.getById(id);
-        if (!plan_docente) {
+        const planDocente = await this.planDocenteService.getById(id);
+        if (!planDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "404",
@@ -69,15 +61,15 @@ export class PlanDocenteController {
                 Success: true,
                 Status: "200",
                 Message: "Request successful",
-                Data: plan_docente
+                Data: planDocente
             }
         );
     }
 
     @Put('/:id')
-    async put(@Res() res, @Param('id') id: string, @Body() plan_docenteDto: PlanDocenteDto) {
-        const plan_docente = await this.planDocenteService.put(id, plan_docenteDto);
-        if (!plan_docente) {
+    async put(@Res() res, @Param('id') id: string, @Body() planDocenteDto: PlanDocenteDto) {
+        const planDocente = await this.planDocenteService.put(id, planDocenteDto);
+        if (!planDocente) {
             throw new HttpException({
                 Success: false,
                 Status: "400",
@@ -90,16 +82,16 @@ export class PlanDocenteController {
                 Success: true,
                 Status: "200",
                 Message: "Update successful",
-                Data: plan_docente
+                Data: planDocente
             }
         );
     }
 
     @Delete('/:id')
     async delete(@Res() res, @Param('id') id: string) {
-        const plan_docente = await this.planDocenteService.getById(id);
-        plan_docente.activo = false;
-        const response = await this.planDocenteService.put(id, plan_docente);
+        const planDocente = await this.planDocenteService.getById(id);
+        planDocente.activo = false;
+        const response = await this.planDocenteService.put(id, planDocente);
         if (response instanceof Error) {
             return res.status(HttpStatus.OK).json({
                 Success: false,

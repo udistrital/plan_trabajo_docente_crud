@@ -35,14 +35,6 @@ export class ActividadController {
     @Get()
     async getAll(@Res() res, @Query() filterDto: FilterDto) {
         const actividad = await this.actividadService.getAll(filterDto);
-        if (!actividad) {
-            throw new HttpException({
-                Success: false,
-                Status: "404",
-                Message: "Error service GetAll: The request contains an incorrect parameter or no record exist",
-                Data: null
-            }, HttpStatus.NOT_FOUND)
-        }
         res.status(HttpStatus.OK).json(
             {
                 Success: true,
