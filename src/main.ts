@@ -1,41 +1,50 @@
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import * as fs from 'fs';
-import * as yaml from 'js-yaml';
-import { join } from 'path';
-import { environment } from './config/configuration';
+import { SSMClient, GetParameterCommand } from '@aws-sdk/client-ssm';
+
+async function loadSsmParameters() {
+  const parameterStore = process.env.PARAMETER_STORE;
+  if (!parameterStore) return;
+
+  const client = new SSMClient({});
+
+  const [userRes, passRes] = await Promise.all([
+    client.send(
+      new GetParameterCommand({
+        Name: `/${parameterStore}/plan_trabajo_docente_crud/db/username`,
+      }),
+    ),
+    client.send(
+      new GetParameterCommand({
+        Name: `/${parameterStore}/plan_trabajo_docente_crud/db/password`,
+        WithDecryption: true,
+      }),
+    ),
+  ]);
+
+  process.env.PLAN_TRABAJO_DOCENTE_CRUD_USER = userRes.Parameter!.Value!;
+  process.env.PLAN_TRABAJO_DOCENTE_CRUD_PASS = passRes.Parameter!.Value!;
+}
 
 async function bootstrap() {
+  await loadSsmParameters();
+
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS
   app.enableCors();
 
   const config = new DocumentBuilder()
-    .setTitle('plan_trabajo_docente_crud')
-    .setDescription(
-      'API CRUD para el registro de planes de trabajo docente para el cliente de SGA',
-    )
-    .setVersion('1.0')
-    .addTag('plan_trabajo_docente')
+    .setTitle('Plan Trabajo Docente CRUD')
+    .setDescription('API CRUD para la gestión de los planes de trabajo docente')
+    .setVersion('0.1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-
-  // Swagger UI
+  fs.writeFileSync('./swagger.json', JSON.stringify(document, null, 2));
   SwaggerModule.setup('swagger', app, document);
 
-  const outputPath = join(process.cwd(), 'swagger');
-  fs.mkdirSync(outputPath, { recursive: true });
-  fs.writeFileSync(
-    join(outputPath, 'swagger.json'),
-    JSON.stringify(document, null, 2),
-  );
-
-  fs.writeFileSync(join(outputPath, 'swagger.yaml'), yaml.dump(document));
-
-  await app.listen(parseInt(environment.HTTP_PORT, 10) || 8080);
+  await app.listen(8080);
 }
-
 bootstrap();
