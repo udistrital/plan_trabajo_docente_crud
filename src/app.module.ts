@@ -37,7 +37,7 @@ import { PreAsignacionModule } from './pre_asignacion/pre_asignacion.module';
         );
 
         return {
-          uri: `mongodb://${user}:${pass}@${host}:${port}/${db}?authSource=${authDb}`,
+          uri: `mongodb://${user}:${pass}@${host}:${port}/${db}?authSource=${db}`,
         };
       },
       inject: [ConfigService],
