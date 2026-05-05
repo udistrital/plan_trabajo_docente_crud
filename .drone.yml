@@ -4,7 +4,7 @@ name: nestjs_api_ci
 
 steps:
 - name: install_dependencies
-  image: node:current-alpine
+  image: node:22-alpine
   commands:
     - npm install -g pnpm
     - pnpm install
@@ -17,7 +17,7 @@ steps:
       - push
 
 - name: nest_build
-  image: node:current-alpine
+  image: node:22-alpine
   commands:
   - npm i
   - npm run build
